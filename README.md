@@ -31,6 +31,7 @@ The handler adds two configuration parameters for local.ini.
 
 * require\_authentication\_db\_entry (default: true)
 * webproxy\_use\_secret (default: false)
+* webproxy\_secret\_value (default: unset)
 
 The default of the webproxy\_use\_secret is false, but to be true is highly recommended.
 
@@ -41,6 +42,12 @@ If true, the handler requires the corresponding username at the /_users database
 If true, the handler requires the X-Auth-CouchDB-Token http header.
 
 If the couchdb can be accessed from a remote host, it will protect the couchdb server from the fake http authorization header.
+
+#### webproxy\_secret\_value (default: unset)
+If unset, the X-Auth-CouchDB-Token value is depending on just the secret parameter.
+
+To improve the security, it will be used with the secret value to calucate the SHA1MAC.
+Please see the example section.
 
 Installation
 ------------
@@ -126,6 +133,39 @@ The value of the X-Auth-CouchDB-Token was calculated in the following way.
     <<"329435e5e66be809a656af105f42401e">>
     5> couch_util:to_hex(crypto:sha_mac(Secret,Secret)).
     "c21ec459f6a650dcf6907f2b52e611a069a7aeee"
+
+### Enable X-Auth-CouchDB-Token with webproxy\_secret\_value
+
+In the local.ini, add the secret and webproxy\_secret\_value parameters.
+
+    [couch_httpd_auth]
+    secret = 329435e5e66be809a656af105f42401e
+    webproxy_secret_value = 12ec701ca6c4c7fcaab1ef5db60450c323065c7d926f24c68ec48f7a896021b4
+
+In the apache configuration file, change the corresponding token value.
+
+    <IfModule mod_proxy.c>
+            <IfModule mod_headers.c>
+                RequestHeader add X-Auth-CouchDB-Token "6e5b2344de18fbe7d3e2358eb078fc7da0dac1ae"
+            </IfModule>
+            ProxyPass / http://127.0.0.1:5984/
+            ProxyPassReverse / http://127.0.0.1:5984/
+    </IfModule>
+
+The token value was calculated by;
+    
+    $ erl -pa apache-couchdb-1.0.1/src/couchdb/
+    1> nl(couch_util).
+    abcast
+    2> nl(crypto).
+    abcast
+    3> crypto:start().
+    ok
+    4> Secret = <<"329435e5e66be809a656af105f42401e">>.
+    <<"329435e5e66be809a656af105f42401e">>
+    5> Seeds = <<"12ec701ca6c4c7fcaab1ef5db60450c323065c7d926f24c68ec48f7a896021b4">
+    5> couch_util:to_hex(crypto:sha_mac(Secret,Seeds)).
+    "6e5b2344de18fbe7d3e2358eb078fc7da0dac1ae"
 
 Appendix
 --------
