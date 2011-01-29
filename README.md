@@ -12,6 +12,11 @@ Because the wiki uses the admin-party setting.
 The webproxy\_authentication\_handler can work with the default\_authentication\_handler.
 It means that both the local user who authenticated by the default\_authentication\_handler and the remote user who authenticated by the reverse proxy will be authorized their roles by the CouchDB.
 
+                    +---------------+  Authorization: header   +---------+ CouchDB will ;
+      [user] ---->  |   web server  |  -------------------->   | CouchDB | * set the roles to the userCtx.
+         port:  80  |(reverse proxy)|        port: 5984        +---------+ * not check the password again.
+            or 443  +---------------+   
+
 WebProxy\_Authentication\_Handler for CouchDB 1.0.1
 ---------------------------------------------------
 
