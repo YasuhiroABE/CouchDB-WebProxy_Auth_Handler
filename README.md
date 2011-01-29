@@ -113,7 +113,7 @@ In the apache configuration file, add the corresponding RequestHeader directive 
             ProxyPassReverse / http://127.0.0.1:5984/
     </IfModule>
 
-The value of the X-Auth-CouchDB-Token will be calculated in the following way.
+The value of the X-Auth-CouchDB-Token was calculated in the following way.
 
     $ erl -pa apache-couchdb-1.0.1/src/couchdb/
     1> nl(couch_util).
