@@ -57,21 +57,24 @@ If the couchdb can be accessed from a remote host, it will protect the couchdb s
 #### webproxy\_secret\_value (default: unset, optional)
 If unset, the X-Auth-CouchDB-Token value is depending on just the secret parameter.
 
-To improve the security, it will be used with the secret value to calucate the SHA1MAC.
+To improve the security, it will be used with the secret value to calculate the SHA1MAC.
 Please see the example section.
 
 Installation
 ------------
-Recommended to recompile beam file from the source.
+To recompile beam file is recommended from the source.
 
     $ cd apache-couchdb-1.0.1/src/couchdb/
     $ mv couch_httpd_auth.erl couch_httpd_auth.erl.orig
-    $ git clone git://github.com/YasuhiroABE/CouchDB-WebProxy_Auth_Handler.git couch_httpd_auth.erl
+    $ curl -o couch_httpd_auth.erl https://github.com/YasuhiroABE/CouchDB-WebProxy_Auth_Handler/raw/couchdb-1.0.1/couch_httpd_auth.erl
     $ make
 
 Finally, replace the **couch\_httpd\_auth.beam** with the installed one.
 
 Otherwise, replace the *couch\_httpd\_auth.beam* with the *couch\_httpd\_auth.erl* as an instant way.
+
+    $ rm /usr/local/lib/couchdb/erlang/lib/couch-1.0.1/ebin/couch_httpd_auth.beam
+    $ cp couch_httpd_auth.erl /usr/local/lib/couchdb/erlang/lib/couch-1.0.1/ebin/
 
 Example Settings
 ----------------
