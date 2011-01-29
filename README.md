@@ -27,7 +27,7 @@ The handler does not check the password at the /_users database, the handler jus
 
 ### Configuration Parameters
 
-The handler adds two configuration parameters for local.ini.
+The handler adds three configuration parameters for local.ini.
 
 * require\_authentication\_db\_entry (default: true)
 * webproxy\_use\_secret (default: false)
