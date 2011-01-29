@@ -19,6 +19,10 @@ It means that both the local user who authenticated by the default\_authenticati
                  or 443  +---------------+                       |                    * check the local user's password.
                                                            [local user]           
 
+WebProxy\_Authentication\_Handler for CouchDB 1.0.2
+---------------------------------------------------
+There is no difference from the "WebProxy\_Authentication\_Handler for CouchDB 1.0.1."
+
 WebProxy\_Authentication\_Handler for CouchDB 1.0.1
 ---------------------------------------------------
 
