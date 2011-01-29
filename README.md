@@ -12,10 +12,12 @@ Because the wiki uses the admin-party setting.
 The webproxy\_authentication\_handler can work with the default\_authentication\_handler.
 It means that both the local user who authenticated by the default\_authentication\_handler and the remote user who authenticated by the reverse proxy will be authorized their roles by the CouchDB.
 
-                    +---------------+  Authorization: header   +---------+ CouchDB will ;
-      [user] ---->  |   web server  |  -------------------->   | CouchDB | * set the roles to the userCtx.
-         port:  80  |(reverse proxy)|        port: 5984        +---------+ * not check the password again.
-            or 443  +---------------+   
+                                            +Authorization: header
+                         +---------------+  +X-Auth-CouchDB-Token: heade  +---------+ CouchDB will ;
+    [remote user] ---->  |   web server  |  --------------------------->  | CouchDB | * set roles to the userCtx object.
+              port:  80  |(reverse proxy)|          port: 5984   |        +---------+ * not check the remote user's password.
+                 or 443  +---------------+                       |                    * check the local user's password.
+                                                           [local user]           
 
 WebProxy\_Authentication\_Handler for CouchDB 1.0.1
 ---------------------------------------------------
@@ -43,12 +45,12 @@ The default of the webproxy\_use\_secret is false, but to be true is highly reco
 #### require\_authentication\_db\_entry (default: true)
 If true, the handler requires the corresponding username at the /_users database.
 
-#### webproxy\_use\_secret (default: false)
+#### webproxy\_use\_secret (default: false, optional)
 If true, the handler requires the X-Auth-CouchDB-Token http header.
 
 If the couchdb can be accessed from a remote host, it will protect the couchdb server from the fake http authorization header.
 
-#### webproxy\_secret\_value (default: unset)
+#### webproxy\_secret\_value (default: unset, optional)
 If unset, the X-Auth-CouchDB-Token value is depending on just the secret parameter.
 
 To improve the security, it will be used with the secret value to calucate the SHA1MAC.
