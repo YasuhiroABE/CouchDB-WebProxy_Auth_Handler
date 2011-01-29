@@ -357,14 +357,11 @@ make_cookie_time() ->
 %% The authenticated username and corresponding user roles will be set into the userCtx object.
 %% Corresponding user roles will be referred from the /$authentication_db/org.couchdb.user:$username document.
 %%
-%% The following article suggested to use the null_authentication_handler, but it doesn't maintain userCtx object.
-%% ->  http://wiki.apache.org/couchdb/Apache_As_a_Reverse_Proxy 
-%%
 %% This handler uses new config entry, require_authentication_db_entry, the possible value is true or false.
 %%   If it's true, then the authentication_db document should be existing for each authenticated user.
 %%   It's the default behavior.
 %%
-%%   If it's false and there is no corresponding $username document at $authentication_db, 
+%%   If require_authentication_db_entry is false and there is no corresponding $username document at $authentication_db, 
 %%   then the $username and empty role will be set into the userCxt object.
 %%
 %% Security consideration:
