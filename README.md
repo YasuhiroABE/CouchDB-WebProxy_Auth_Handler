@@ -188,7 +188,9 @@ Appendix
 
 License
 -------
-The part of the webproxy\_authentication\_handler is licensed under the Apache License, Version 2.0.
+The original code is licensed under the Apache License, Version 2.0.
+
+The part of the webproxy\_authentication\_handler is also licensed under the Apache License, Version 2.0.
 
     Copyright (C) 2010,2011 Yasuhiro ABE <yasu@yasundial.org>
 
